@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pgnalyze/app/home/history.dart';
+import 'package:pgnalyze/app/screens/nav_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -7,12 +7,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PGNalyze',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'PGNalyze'),
+      home: const NavScreen(),
     );
   }
 }

@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pgnalyze/app/widgets/bottom_bar.dart';
-import 'package:pgnalyze/app/widgets/nav_drawer.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: ListView(
         children: <Widget>[
           ListTile(
@@ -36,13 +30,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      drawer: const NavDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: const BottomBar(shape: CircularNotchedRectangle()),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
