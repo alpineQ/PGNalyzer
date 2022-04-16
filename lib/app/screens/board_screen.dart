@@ -11,13 +11,14 @@ class BoardScreen extends StatefulWidget {
 class _BoardAction {
   final String label;
   final Widget icon;
+  final Function onTap;
 
-  _BoardAction(this.label, this.icon);
+  _BoardAction(this.label, this.icon, this.onTap);
 }
 
 class _BoardScreenState extends State<BoardScreen> {
   // static final stockfish = Stockfish();
-  ChessBoardController controller = ChessBoardController();
+  ChessBoardController chessBoardController = ChessBoardController();
   String movesHistory = '';
   List<BoardArrow> arrows = [
     BoardArrow(
@@ -27,17 +28,17 @@ class _BoardScreenState extends State<BoardScreen> {
     ),
   ];
   final List<_BoardAction> _boardActions = [
-    _BoardAction('Restart', const Icon(Icons.refresh)),
-    _BoardAction('Undo', const Icon(Icons.undo)),
-    _BoardAction('Redo', const Icon(Icons.redo)),
+    _BoardAction('Restart', const Icon(Icons.refresh), () {}),
+    _BoardAction('Undo', const Icon(Icons.undo), () {}),
+    _BoardAction('Redo', const Icon(Icons.redo), () {}),
   ];
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
+    chessBoardController.addListener(() {
       setState(() {
-        movesHistory = controller.getSan().fold(
+        movesHistory = chessBoardController.getSan().fold(
               '',
               (previousValue, element) =>
                   previousValue + '\n' + (element ?? ''),
@@ -52,16 +53,13 @@ class _BoardScreenState extends State<BoardScreen> {
       body: Column(
         children: [
           ChessBoard(
-            controller: controller,
+            controller: chessBoardController,
             boardColor: BoardColor.orange,
             boardOrientation: PlayerColor.white,
             arrows: arrows,
           ),
           BottomNavigationBar(
-            onTap: (value) =>
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(_boardActions[value].label),
-            )),
+            onTap: (value) => _boardActions[value].onTap,
             items: _boardActions
                 .map((e) =>
                     BottomNavigationBarItem(icon: e.icon, label: e.label))
