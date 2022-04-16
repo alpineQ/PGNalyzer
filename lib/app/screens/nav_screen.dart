@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pgnalyze/app/custom_icons.dart';
+import 'package:pgnalyze/app/screens/board_screen.dart';
 import 'package:pgnalyze/app/screens/history_screen.dart';
 import 'package:pgnalyze/app/widgets/nav_drawer.dart';
 
@@ -10,20 +11,22 @@ class NavScreen extends StatefulWidget {
   State<NavScreen> createState() => _NavScreenState();
 }
 
+class _NavScreenItem {
+  final Widget screen;
+  final String title;
+  final IconData icon;
+
+  const _NavScreenItem(this.screen, this.title, this.icon);
+}
+
 class _NavScreenState extends State<NavScreen> {
-  final List<Widget> _screens = [
-    const HistoryScreen(),
-    const Scaffold(),
-    const Scaffold(),
-    const Scaffold(),
+  final List<_NavScreenItem> _screens = const [
+    _NavScreenItem(HistoryScreen(), 'History', Icons.view_list),
+    _NavScreenItem(BoardScreen(), 'Board', CustomIcons.chessBoard),
+    _NavScreenItem(Scaffold(), 'Favorite', Icons.favorite),
+    _NavScreenItem(Scaffold(), 'Search', Icons.search),
   ];
   int _currentIndex = 0;
-  final Map<String, IconData> _icons = const {
-    'History': Icons.view_list,
-    'Board': CustomIcons.chessBoard,
-    'Favorite': Icons.favorite,
-    'Search': Icons.search,
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +35,20 @@ class _NavScreenState extends State<NavScreen> {
         title: const Text("PGNalyzer"),
       ),
       drawer: const NavDrawer(),
-      body: _screens[_currentIndex],
+      body: _screens[_currentIndex].screen,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blue,
-        items: _icons
+        items: _screens
             .map(
-              (title, icon) => MapEntry(
-                title,
-                BottomNavigationBarItem(
-                  label: title,
-                  icon: Icon(
-                    icon,
-                    size: 30,
-                  ),
+              (navItem) => BottomNavigationBarItem(
+                label: navItem.title,
+                icon: Icon(
+                  navItem.icon,
+                  size: 30,
                 ),
               ),
             )
-            .values
             .toList(),
         currentIndex: _currentIndex,
         selectedItemColor: Colors.white,
